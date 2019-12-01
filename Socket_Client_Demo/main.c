@@ -10,10 +10,15 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int main(int argc, const char * argv[]) {
     //create a socket , it returns a integer.
-    int client_socket = socket(AF_INET, SOCK_STREAM, 0);
+    
+    /*Day01----Study
+     与服务器读写 line 20 to 44
+     */
+    /**int client_socket = socket(AF_INET, SOCK_STREAM, 0);
     char buff[1024];
     struct sockaddr_in sd;
     char *htmldata = "Nice to meet u,too";
@@ -37,7 +42,35 @@ int main(int argc, const char * argv[]) {
             //printf("---no over%c",buff[1023]);
         }
         sleep(5);
+    }********/
+    
+    
+    
+    /*---------------------------------*/
+    
+    
+    /*
+     Day 2
+     */
+    int i,clientfds[5];
+    struct sockaddr_in    servaddr;
+
+
+    for (i = 0; i < 5; i++) {
+        clientfds[i] = socket(AF_INET, SOCK_STREAM, 0);
+        bzero(&servaddr, sizeof(servaddr));
+        servaddr.sin_family = AF_INET;
+        servaddr.sin_port = htons(8088);
+        inet_pton(AF_INET, "127.0.0.1", &servaddr.sin_addr);
+        connect(clientfds[i],  (struct sockaddr *)&servaddr, sizeof(servaddr));
     }
+
+    //str_cli(stdin, sockfd[0]);        /* do it all */
+
+    exit(0);
+    
+    
+    
     
     return 0;
 }
